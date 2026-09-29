@@ -1,0 +1,65 @@
+# Python environments and generated files
+.venv/
+.venv-wsl/
+__pycache__/
+*.py[cod]
+*.log
+
+# Local configuration and runtime state
+.env
+leafai/backend/.env
+leafai/backend/cache/*
+leafai/backend/logs/
+leafai/backend/dataset/
+# The app loads the packaged Keras model. Keep alternate checkpoints and
+# experiment snapshots out of the GitHub source repository.
+leafai/backend/models/*.h5
+leafai/backend/models/experiments/
+leafai/backend/storage/uploads/*
+leafai/backend/storage/*.tmp
+leafai/backend/storage/predictions.json
+leafai/backend/storage/automation_config.json
+leafai/backend/storage/automation_status.json
+leafai/backend/storage/automation_alerts.json
+leafai/backend/tests/.automation-test-state/
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+
+# IDE and OS files
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+.DS_Store
+Thumbs.db
+tmp_test.png
+.impeccable-cache/
+/analysis_samples/
+/package-lock.json
+/task.md
+/PREDICTION_FAILED_DEBUG.md
+
+# impeccable-ignore-start
+# Ephemeral output, runtime state, and per-developer overrides.
+# Shared artifacts such as config.json, design.json, surfaces/*.md, and
+# critique/*.md stay tracked.
+**/.impeccable/config.local.json
+**/.impeccable/hook.cache.json
+**/.impeccable/hook.pending.json
+**/.impeccable/*.png
+**/.impeccable/review/
+**/.impeccable/questions/
+**/.impeccable/live/server.json
+**/.impeccable/live/sessions/
+**/.impeccable/live/previews/
+**/.impeccable/live/annotations/
+**/.impeccable/live/cache/
+**/.impeccable/live/manual-edit-apply-transaction.json
+**/.impeccable/live/manual-edit-events.jsonl
+**/.impeccable/live/manual-edit-evidence/
+**/.impeccable/live/pending-manual-edits.json
+**/.impeccable/live/deferred-svelte-component-accepts.json
+**/.impeccable/live/*.png
+# impeccable-ignore-end

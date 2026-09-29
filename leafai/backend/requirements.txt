@@ -1,0 +1,24 @@
+# LeafAI runtime dependencies for the native Windows GPU environment (Python 3.10).
+#
+# This file contains only packages imported directly by LeafAI.  Do not add
+# pip's transitive dependencies here: pip resolves those from their declared
+# compatibility ranges when a clean virtual environment is created.
+
+Flask==3.1.2
+flask-cors==6.0.2
+python-dotenv==1.2.3
+
+# TensorFlow 2.10 is the last release with NVIDIA GPU support on native
+# Windows. CUDA 11.2 and cuDNN 8.1 are supplied by the Conda environment.
+tensorflow==2.10.1
+keras==2.10.0
+numpy==1.23.5
+h5py==3.10.0
+
+pillow==10.4.0
+matplotlib==3.8.4
+seaborn==0.13.2
+scikit-learn==1.4.2
+scipy==1.11.4
+reportlab==4.2.2
+opencv-python==4.10.0.84

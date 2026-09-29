@@ -1,0 +1,212 @@
+.app-shell {
+  display: flex;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: #071a0b;
+}
+
+.app-sidebar {
+  display: flex;
+  flex: 0 0 224px;
+  flex-direction: column;
+  width: 224px;
+  padding: 24px 14px 18px;
+  background: rgba(4, 18, 8, 0.92);
+  border-right: 1px solid rgba(155, 224, 158, 0.12);
+  transition: width 0.25s ease, flex-basis 0.25s ease, transform 0.25s ease;
+  z-index: 30;
+}
+
+.app-shell-collapsed .app-sidebar {
+  flex-basis: 76px;
+  width: 76px;
+}
+
+.app-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 0 10px 24px;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.app-sidebar-brand-mark {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 10px;
+  background: #66bb6a;
+  color: #08200c;
+}
+
+.app-sidebar-brand-mark svg {
+  width: 25px;
+  height: 25px;
+  transform: rotate(-9deg);
+}
+
+.app-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.app-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.app-sidebar-link svg {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.app-sidebar-link:hover,
+.app-sidebar-link-active {
+  background: rgba(102, 187, 106, 0.14);
+  border-color: rgba(155, 224, 158, 0.16);
+  color: #b9edbc;
+}
+
+.app-sidebar-link-active {
+  box-shadow: inset 3px 0 0 #66bb6a;
+}
+
+.app-sidebar-collapse {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 42px;
+  margin-top: auto;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.app-sidebar-collapse:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.app-shell-collapsed .app-sidebar-brand-name,
+.app-shell-collapsed .app-sidebar-link span,
+.app-shell-collapsed .app-sidebar-collapse-label {
+  display: none;
+}
+
+.app-shell-collapsed .app-sidebar-link,
+.app-shell-collapsed .app-sidebar-collapse {
+  justify-content: center;
+  padding: 0;
+}
+
+.app-shell-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.app-shell-main > .page-container {
+  width: 100%;
+  height: 100%;
+}
+
+.app-shell-mobile-toggle,
+.app-shell-backdrop {
+  display: none;
+}
+
+@media (min-width: 769px) and (max-width: 1199px) {
+  .app-sidebar {
+    flex-basis: 76px;
+    width: 76px;
+  }
+
+  .app-sidebar-brand-name,
+  .app-sidebar-link span,
+  .app-sidebar-collapse-label {
+    display: none;
+  }
+
+  .app-sidebar-link,
+  .app-sidebar-collapse {
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 224px;
+    flex-basis: 224px;
+    transform: translateX(-100%);
+    box-shadow: 16px 0 40px rgba(0, 0, 0, 0.35);
+  }
+
+  .app-sidebar-mobile-open {
+    transform: translateX(0);
+  }
+
+  .app-shell-mobile-toggle {
+    position: fixed;
+    top: 14px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 38px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(155, 224, 158, 0.2);
+    border-radius: 10px;
+    background: rgba(7, 26, 11, 0.8);
+    color: #fff;
+    cursor: pointer;
+    z-index: 20;
+  }
+
+  .app-shell-mobile-toggle span {
+    display: block;
+    width: 17px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+  }
+
+  .app-shell-backdrop {
+    position: fixed;
+    inset: 0;
+    display: block;
+    border: 0;
+    background: rgba(0, 0, 0, 0.48);
+    cursor: pointer;
+    z-index: 25;
+  }
+}

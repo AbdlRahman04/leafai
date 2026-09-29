@@ -1,0 +1,6 @@
+# Optional Gemini chatbot integration.
+#
+# Do not install this into the TensorFlow 2.10 environment. Google GenAI
+# depends on Pydantic 2, which requires typing-extensions >=4.6, while
+# TensorFlow 2.10 requires typing-extensions <4.6.
+google-genai==1.1.0

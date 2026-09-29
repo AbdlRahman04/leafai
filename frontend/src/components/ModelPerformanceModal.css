@@ -1,0 +1,209 @@
+/* ============================================
+   Model Performance Modal
+   ============================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: modalFadeIn 0.25s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-container {
+  background: rgba(18, 40, 22, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  box-shadow:
+    0 32px 100px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  padding: 36px;
+  width: 92%;
+  max-width: 1000px;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Inter', sans-serif;
+  animation: modalSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.modal-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin: 0 0 28px;
+}
+
+.modal-loading {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 40px;
+  font-size: 15px;
+}
+
+.modal-error {
+  color: #ef5350;
+  text-align: center;
+  padding: 20px;
+}
+
+/* KPI */
+.modal-kpi {
+  background: rgba(76, 175, 80, 0.08);
+  border: 1px solid rgba(76, 175, 80, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.modal-kpi-label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 8px;
+}
+
+.modal-kpi-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #66bb6a;
+  line-height: 1;
+}
+
+.modal-kpi-sub {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 8px;
+}
+
+/* Charts Grid */
+.modal-charts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.modal-chart-card {
+  flex: 1;
+  min-width: 260px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.modal-chart-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 16px;
+}
+
+.modal-chart-empty {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 13px;
+}
+
+/* Confusion Matrix */
+.modal-cm-container {
+  overflow-x: auto;
+  max-height: 250px;
+}
+
+.modal-cm-row {
+  display: flex;
+}
+
+.modal-cm-cell {
+  width: 28px;
+  height: 28px;
+  font-size: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 1px;
+  border-radius: 3px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-container {
+    padding: 24px;
+    width: 96%;
+  }
+
+  .modal-charts {
+    flex-direction: column;
+  }
+
+  .modal-kpi-value {
+    font-size: 36px;
+  }
+}

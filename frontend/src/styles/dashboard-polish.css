@@ -1,0 +1,347 @@
+/* Final dashboard layer. This resolves legacy dark-theme rules without
+   spreading more page-specific overrides through the shared redesign file. */
+.dash-page {
+  --dash-panel-padding: clamp(18px, 2vw, 24px);
+}
+
+.dash-header {
+  margin-bottom: 26px;
+}
+
+.dash-header-main {
+  padding-right: 132px;
+}
+
+.dash-title {
+  max-width: 18ch;
+  font-size: clamp(2.15rem, 3.2vw, 3rem);
+  letter-spacing: -.04em;
+}
+
+.dash-subtitle {
+  max-width: 62ch;
+}
+
+.dash-refresh-button {
+  top: auto;
+  bottom: 2px;
+  min-height: 40px;
+  padding: 0 14px;
+  gap: 8px;
+}
+
+.dash-section-eyebrow {
+  display: none;
+}
+
+.automation-panel,
+.dash-insights-card,
+.dash-filter-bar,
+.dash-chart-card {
+  padding: var(--dash-panel-padding);
+}
+
+.automation-panel-heading h2,
+.dash-insights-heading h3 {
+  margin-top: 0;
+  letter-spacing: -.03em;
+}
+
+.automation-collapsed-summary {
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+.dash-kpis {
+  align-items: stretch;
+  animation: none;
+  opacity: 1;
+}
+
+.dash-kpi-card {
+  display: flex;
+  min-height: 138px;
+  padding: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: left;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+
+.dash-kpi-card:not(.dash-kpi-card-primary):hover {
+  transform: none;
+  box-shadow: none !important;
+}
+
+.dash-kpi-heading {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.dash-kpi-value {
+  margin-top: 2px;
+  font-size: 1.9rem;
+  letter-spacing: -.04em;
+}
+
+.dash-kpi-sub,
+.dash-kpi-trend {
+  line-height: 1.35;
+}
+
+.dash-insights-card {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.dash-insights-heading {
+  margin-bottom: 0;
+}
+
+.dash-page .dash-insights-grid {
+  margin-top: 16px !important;
+}
+
+.dash-page .dash-insight-value {
+  letter-spacing: -.025em;
+}
+
+.dash-filter-bar {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) auto;
+  gap: 10px 12px;
+}
+
+.dash-filter-title {
+  grid-column: 1 / -1;
+  margin: 0 0 2px;
+  font-size: .92rem;
+}
+
+.dash-filter-bar select,
+.dash-clear-filters,
+.dash-danger-action {
+  min-height: 42px;
+}
+
+.dash-clear-filters:focus-visible,
+.dash-danger-action:focus-visible,
+.dash-filter-bar select:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 2px;
+}
+
+.dash-charts {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-rows: minmax(280px, auto);
+  animation: none;
+  opacity: 1;
+}
+
+.dash-chart-card {
+  min-height: 280px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.dash-chart-card:nth-child(1),
+.dash-chart-card:nth-child(2) {
+  grid-column: span 3;
+}
+
+.dash-chart-card:nth-child(3),
+.dash-chart-card:nth-child(4),
+.dash-chart-card:nth-child(5) {
+  grid-column: span 2;
+}
+
+.dash-table-card {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1180px) {
+  .dash-filter-bar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dash-page .dash-insights-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 0 !important;
+  }
+
+  .dash-page .dash-insight-item {
+    padding: 0 16px !important;
+  }
+
+  .dash-page .dash-insight-item:nth-child(odd) {
+    padding-left: 0 !important;
+    border-left: 0 !important;
+  }
+
+  .dash-page .dash-insight-item:nth-child(even) {
+    border-left: 1px solid var(--line) !important;
+  }
+
+  .dash-charts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dash-chart-card:nth-child(n) {
+    grid-column: span 1;
+  }
+
+  .dash-chart-card:nth-child(5) {
+    grid-column: 1 / -1;
+  }
+
+  .dash-table-card {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .dash-page {
+    padding: 76px 18px 36px;
+  }
+
+  .dash-header {
+    margin-bottom: 22px;
+  }
+
+  .dash-header-main {
+    padding-right: 0;
+  }
+
+  .dash-title {
+    max-width: none;
+    font-size: 2rem;
+  }
+
+  .dash-subtitle {
+    margin-top: 8px;
+    margin-bottom: 0;
+    font-size: .95rem;
+  }
+
+  .dash-refresh-button {
+    position: static;
+    width: auto;
+    margin: 16px 0 0;
+  }
+
+  .automation-panel-heading {
+    gap: 12px;
+  }
+
+  .automation-panel-heading h2 {
+    max-width: 15ch;
+    font-size: 1.1rem;
+  }
+
+  .dash-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .dash-kpi-card {
+    min-height: 138px;
+    padding: 17px;
+  }
+
+  .dash-kpi-value {
+    font-size: 1.65rem;
+  }
+
+  .dash-page .dash-insights-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 0 !important;
+  }
+
+  .dash-page .dash-insight-item {
+    padding: 0 14px !important;
+  }
+
+  .dash-page .dash-insight-item:nth-child(odd) {
+    padding-left: 0 !important;
+    border-left: 0 !important;
+  }
+
+  .dash-page .dash-insight-item:nth-child(even) {
+    border-left: 1px solid var(--line) !important;
+  }
+
+  .dash-filter-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dash-filter-title,
+  .dash-clear-filters,
+  .dash-danger-action {
+    grid-column: 1 / -1;
+  }
+
+  .dash-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-chart-card:nth-child(n) {
+    grid-column: 1;
+  }
+
+  .dash-table-card {
+    grid-column: 1 !important;
+  }
+
+  .dash-table-scroll {
+    overflow-x: auto !important;
+    overscroll-behavior-x: contain;
+    scrollbar-color: var(--sage) var(--muted);
+  }
+
+  .dash-table {
+    min-width: 720px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .dash-page {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .dash-kpi-card {
+    min-height: 132px;
+    padding: 15px;
+  }
+
+  .dash-kpi-label {
+    font-size: .64rem;
+    letter-spacing: .055em;
+  }
+
+  .dash-kpi-sub,
+  .dash-kpi-trend {
+    font-size: .65rem;
+  }
+
+  .dash-filter-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-filter-title,
+  .dash-clear-filters,
+  .dash-danger-action {
+    grid-column: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-page *,
+  .dash-page *::before,
+  .dash-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

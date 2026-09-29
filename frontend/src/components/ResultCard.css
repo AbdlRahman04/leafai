@@ -1,0 +1,200 @@
+/* ============================================
+   Result Card — Shared Prediction Display
+   ============================================ */
+.result-card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  padding: 32px;
+  animation: slideInRight 0.7s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Inter', sans-serif;
+}
+
+.result-card-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 20px;
+}
+
+.result-card p {
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.result-card strong {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Confidence bar */
+.result-confidence {
+  margin-top: 16px;
+}
+
+.result-confidence-track {
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  height: 10px;
+  overflow: hidden;
+}
+
+.result-confidence-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #43a047, #66bb6a, #81c784);
+  border-radius: 20px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.result-confidence-value {
+  margin-top: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Warning */
+.result-warning {
+  color: #ef5350 !important;
+  font-weight: 600;
+  background: rgba(239, 83, 80, 0.1);
+  border: 1px solid rgba(239, 83, 80, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+/* Severity badge */
+.result-severity-badge {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* Section titles */
+.result-section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #a5d6a7;
+  margin-top: 24px;
+  margin-bottom: 10px;
+}
+
+/* Healthy reference image */
+.result-healthy-image {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-top: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Advice box */
+.result-advice-box {
+  margin-top: 24px;
+  background: rgba(76, 175, 80, 0.08);
+  border: 1px solid rgba(76, 175, 80, 0.15);
+  padding: 18px;
+  border-radius: 14px;
+}
+
+.result-advice-text {
+  margin-top: 8px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Geography box */
+.result-geography-box {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 18px;
+  border-radius: 14px;
+}
+
+.result-regions-list {
+  margin-top: 8px;
+  padding-left: 20px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.result-regions-list li {
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+/* Action buttons */
+.result-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.result-btn-primary {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  color: #1b5e20;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.2);
+}
+
+.result-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(76, 175, 80, 0.3);
+}
+
+.result-btn-secondary {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.result-btn-secondary:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .result-card {
+    padding: 24px;
+  }
+
+  .result-actions {
+    flex-direction: column;
+  }
+
+  .result-btn-primary,
+  .result-btn-secondary {
+    width: 100%;
+    text-align: center;
+  }
+}
