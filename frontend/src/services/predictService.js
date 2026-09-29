@@ -12,7 +12,7 @@ export async function predictDisease(file, runKey) {
   formData.append("file", file);
   if (runKey) formData.append("run_key", runKey);
 
-  const response = await api.post("/predict", formData);
+  const response = await api.post("/predict", formData, { timeout: 90000 });
   return response.data;
 }
 

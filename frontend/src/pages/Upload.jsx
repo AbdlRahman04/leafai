@@ -94,9 +94,12 @@ function Upload() {
         if (!bulkRunKey && result?.run_key) setBulkRunKey(result.run_key);
         results.push({ ...item, prediction: result });
       } catch (error) {
+        const timedOut = error?.code === "ECONNABORTED" || error?.code === "ETIMEDOUT";
         results.push({
           ...item,
-          error: error?.response?.data?.error || "Analysis failed for this image.",
+          error: timedOut
+            ? "This image took longer than 90 seconds. Try a smaller image or try again later."
+            : error?.response?.data?.error || "Analysis failed for this image.",
         });
       }
       setBulkResults([...results]);

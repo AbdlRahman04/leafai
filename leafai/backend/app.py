@@ -7,6 +7,7 @@ import json
 import io
 import uuid
 import os
+import time
 import mimetypes
 import hashlib
 import threading
@@ -693,6 +694,8 @@ def predict():
     file = request.files["file"]
     if file.filename == "":
         return jsonify({"error": "No file selected"}), 400
+    request_started_at = time.monotonic()
+    print("[PREDICT] Image request received", flush=True)
     requested_run_key = request.form.get("run_key") or uuid.uuid4().hex
     source = request.form.get("source", "manual")
     if source not in {"manual", "automation"}:
@@ -700,6 +703,7 @@ def predict():
     
     try:
         original_bytes = file.read()
+        print(f"[PREDICT] Read upload ({len(original_bytes)} bytes)", flush=True)
         image_sha256 = hashlib.sha256(original_bytes).hexdigest()
 
         # Check before inference, then check again before committing. The second
@@ -729,7 +733,16 @@ def predict():
         image_filename = f"{prediction_id}{image_extension}"
         image_path = os.path.join(UPLOAD_DIR, image_filename)
 
-        preds = model.predict(arr, verbose=0)
+        print("[PREDICT] Starting model inference", flush=True)
+        # Calling the model directly avoids Keras predict()'s data adapter and
+        # tf.data setup for a single already-batched image. This is lighter on
+        # small CPU instances such as Render's free tier.
+        preds = model(arr, training=False).numpy()
+        print(
+            f"[PREDICT] Model inference finished in "
+            f"{time.monotonic() - request_started_at:.2f}s",
+            flush=True,
+        )
 
         all_predictions = []
         for i, score in enumerate(preds[0]):
@@ -828,7 +841,11 @@ def predict():
 
         create_automation_prediction_alerts(entry)
         response = prediction_response(entry)
-        print(f"\nPrediction: {normalized_plant} - {normalized_disease} ({confidence:.1f}%)")
+        print(
+            f"[PREDICT] Completed: {normalized_plant} - {normalized_disease} "
+            f"({confidence:.1f}%) in {time.monotonic() - request_started_at:.2f}s",
+            flush=True,
+        )
         return jsonify(response)
         
     except Exception as e:
@@ -837,7 +854,7 @@ def predict():
                 os.remove(image_path)
             except OSError as cleanup_error:
                 print(f"[WARN] Could not clean up failed scan image: {cleanup_error}")
-        print(f"Error: {e}")
+        print(f"[PREDICT] Failed after {time.monotonic() - request_started_at:.2f}s: {e}", flush=True)
         return jsonify({"error": f"Prediction failed: {str(e)}"}), 500
 
 @app.route("/start-analysis-run", methods=["POST"])
