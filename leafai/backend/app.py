@@ -129,12 +129,35 @@ except Exception as e:
     exit(1)
 
 DATASET_PATH = os.path.join(BACKEND_DIR, "dataset", "PlantVillage", "color")
+MODEL_METRICS_PATH = os.path.join(BACKEND_DIR, "models", "model_metrics.json")
 cached_confusion_matrix = None
 cached_accuracy = None
 cached_labels = None
 cached_validation_sample_count = None
 cached_model_evaluated_at = None
 previous_cached_accuracy = None
+
+# Gunicorn imports this module, so the `__main__` evaluation below does not run
+# on Render. Load the verified local validation result as packaged metadata so
+# the dashboard can show the score without evaluating the full dataset at boot.
+try:
+    with open(MODEL_METRICS_PATH, "r", encoding="utf-8") as metrics_file:
+        model_metrics = json.load(metrics_file)
+    metric_accuracy = float(model_metrics["accuracy"])
+    if not 0 <= metric_accuracy <= 100:
+        raise ValueError("Model accuracy must be between 0 and 100")
+    cached_accuracy = metric_accuracy
+    cached_validation_sample_count = int(model_metrics["validation_sample_count"])
+    cached_model_evaluated_at = model_metrics.get("computed_at")
+    print(
+        f"[OK] Loaded packaged model accuracy: {cached_accuracy}% "
+        f"({cached_validation_sample_count} validation images)",
+        flush=True,
+    )
+except FileNotFoundError:
+    pass
+except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as error:
+    print(f"[WARN] Could not load packaged model accuracy: {error}", flush=True)
 
 
 def model_signature():

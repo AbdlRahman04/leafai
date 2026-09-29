@@ -1,0 +1,8 @@
+{
+  "accuracy": 93.55,
+  "validation_sample_count": 54309,
+  "computed_at": "2026-09-09T02:00:48.332593",
+  "source": "Local PlantVillage validation run",
+  "evaluated_model": "plant_disease_model.h5",
+  "preprocessing": "rescale_1_255"
+}
