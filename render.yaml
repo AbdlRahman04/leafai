@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: leafai-api
+    runtime: python
+    plan: free
+    rootDir: leafai/backend
+    buildCommand: pip install -r requirements-render.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 app:app
+    healthCheckPath: /test
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.14
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: PUBLIC_API_URL
+        fromService:
+          type: web
+          name: leafai-api
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
+
+  - type: web
+    name: leafai-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: leafai-api
+          envVarKey: RENDER_EXTERNAL_URL

@@ -45,7 +45,14 @@ from automation_store import (
 )
 
 app = Flask(__name__)
-CORS(app)
+cors_origins = [
+    origin.strip()
+    for origin in os.environ.get(
+        "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
+    ).split(",")
+    if origin.strip()
+]
+CORS(app, origins=cors_origins)
 
 # Anchor backend assets to this module so launch location cannot change paths.
 BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -53,6 +60,7 @@ KERAS_MODEL_PATH = os.path.join(BACKEND_DIR, "models", "plant_disease_model.kera
 H5_MODEL_PATH = os.path.join(BACKEND_DIR, "models", "plant_disease_model.h5")
 CLASS_INDEX_PATH = os.path.join(BACKEND_DIR, "models", "class_indices.json")
 IMG_SIZE = (128, 128)
+PUBLIC_API_URL = os.environ.get("PUBLIC_API_URL", "").rstrip("/")
 
 # ── Cache configuration ──────────────────────────────────────────
 # Toggle caching: comment/uncomment the line below to disable/enable
@@ -746,7 +754,8 @@ def predict():
         if not is_healthy:
             filename = healthy_map.get(raw_plant)
             if filename:
-                healthy_image_url = f"http://localhost:4000/healthy_references/{filename}"
+                api_url = PUBLIC_API_URL or request.host_url.rstrip("/")
+                healthy_image_url = f"{api_url}/healthy_references/{filename}"
 
         plant_metadata = get_plant_metadata(normalized_plant)
 
@@ -1258,6 +1267,7 @@ if __name__ == "__main__":
     print("STARTING FLASK SERVER")
     print("="*50)
     print(f"Model loaded with {len(class_names)} classes")
-    print(f"Server running at: http://localhost:4000")
+    port = int(os.environ.get("PORT", "4000"))
+    print(f"Server listening on port {port}")
     print("="*50 + "\n")
-    app.run(debug=True, port=4000, use_reloader=False)
+    app.run(host="0.0.0.0", debug=False, port=port, use_reloader=False)
