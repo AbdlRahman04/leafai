@@ -24,7 +24,7 @@ export function usePrediction() {
       const backendMessage = error?.response?.data?.error;
       const timedOut = error?.code === "ECONNABORTED" || error?.code === "ETIMEDOUT";
       const message = timedOut
-        ? "The server took longer than 90 seconds. Please try a smaller image or try again later."
+        ? "The server took longer than 30 seconds. Please try a smaller image or try again later."
         : backendMessage || error?.message || "Unknown error";
 
       console.error("Prediction error:", { status, message, error });

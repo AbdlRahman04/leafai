@@ -98,7 +98,7 @@ function Upload() {
         results.push({
           ...item,
           error: timedOut
-            ? "This image took longer than 90 seconds. Try a smaller image or try again later."
+            ? "This image took longer than 30 seconds. Try a smaller image or try again later."
             : error?.response?.data?.error || "Analysis failed for this image.",
         });
       }
@@ -204,7 +204,7 @@ function Upload() {
           >
             {loading ? "Analyzing..." : "Detect Disease"}
           </button>
-          {loading && <p className="ui-processing" role="status">Analyzing leaf features and comparing conditions…</p>}
+          {loading && <p className="ui-processing" role="status">Analysing… Please wait while your image is processed.</p>}
           {error && <p className="ui-message ui-message-error" role="alert">{error}</p>}
         </div>
 
@@ -245,6 +245,7 @@ function Upload() {
                 ? `Analyzing ${bulkProgress} of ${bulkImages.length}...`
                 : "Analyze All Images"}
             </button>
+            {bulkLoading && <p className="ui-processing" role="status">Analysing… Please wait while your image is processed.</p>}
           </div>
 
           {bulkImages.length > 0 && mode === "preview" && (

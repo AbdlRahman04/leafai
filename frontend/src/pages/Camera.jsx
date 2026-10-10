@@ -296,14 +296,14 @@ function Camera() {
               />
 
               <div className="camera-action-row">
-                <button className="camera-analyze-btn" onClick={analyzeImage}>
+                <button className="camera-analyze-btn" onClick={analyzeImage} disabled={loading}>
                   {loading ? "Analyzing..." : "Detect Disease"}
                 </button>
-                <button className="camera-retake-btn" onClick={retake}>
+                <button className="camera-retake-btn" onClick={retake} disabled={loading}>
                   Retake
                 </button>
               </div>
-              {loading && <p className="ui-processing" role="status">Analyzing your captured leaf…</p>}
+              {loading && <p className="ui-processing" role="status">Analysing… Please wait while your image is processed.</p>}
               {error && <p className="ui-message ui-message-error" role="alert">{error}</p>}
             </>
           )}
