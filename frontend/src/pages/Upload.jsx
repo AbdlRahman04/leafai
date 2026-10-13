@@ -5,6 +5,7 @@ import { fetchDashboardData, saveAnalysis, startAnalysisRun } from "../services/
 import ResultCard from "../components/ResultCard";
 import ModelPerformanceModal from "../components/ModelPerformanceModal";
 import ReportPreview from "../components/ReportPreview";
+import { PLANTS } from "../utils/constants";
 import "./Upload.css";
 
 function Upload() {
@@ -168,6 +169,15 @@ function Upload() {
           Bulk Analysis
         </button>
       </div>
+
+      <section className="upload-supported-plants" aria-label="Supported plant types">
+        <strong>Supports leaves from {PLANTS.length} plant types</strong>
+        <p>Results for other plants may be inaccurate.</p>
+        <details>
+          <summary>View supported plants</summary>
+          <p>{PLANTS.map((plant) => plant === "Pepper Bell" ? "Bell Pepper" : plant).join(", ")}.</p>
+        </details>
+      </section>
 
       {mode === "single" ? <div className="page-content">
         {/* LEFT CARD */}

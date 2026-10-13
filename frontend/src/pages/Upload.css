@@ -6,6 +6,38 @@
   overflow-y: auto;
 }
 
+.upload-supported-plants {
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--sage-soft);
+  color: var(--forest);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.upload-supported-plants p {
+  margin: 4px 0 0;
+}
+
+.upload-supported-plants summary {
+  width: fit-content;
+  padding: 10px 0;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.upload-supported-plants summary:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.upload-supported-plants summary:focus-visible {
+  outline: 2px solid var(--forest);
+  outline-offset: 3px;
+}
+
 .upload-mode-switch {
   display: flex;
   justify-content: center;
