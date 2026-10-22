@@ -1,0 +1,122 @@
+/* Shared phone header and drawer; desktop keeps its persistent sidebar. */
+.app-mobile-header, .app-sidebar-close { display: none; }
+
+@media (max-width: 768px) {
+  .app-shell {
+    --mobile-header-height: calc(68px + env(safe-area-inset-top));
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    height: auto;
+    overflow: visible;
+    padding-top: var(--mobile-header-height);
+  }
+
+  .app-mobile-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: var(--mobile-header-height);
+    padding: env(safe-area-inset-top) max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
+    border-bottom: 1px solid var(--line);
+    background: var(--canvas);
+  }
+
+  .app-mobile-header .app-shell-mobile-toggle {
+    position: static;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    box-shadow: none;
+  }
+
+  .app-mobile-brand {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--forest);
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -.04em;
+    text-decoration: none;
+  }
+
+  .app-mobile-header .team-menu { margin-left: auto; }
+  .app-mobile-header .team-menu-trigger { padding: 0 10px; font-size: .75rem; }
+  .app-shell-main { min-height: calc(100dvh - var(--mobile-header-height)); }
+  .app-shell-main > .page-container { min-height: calc(100dvh - var(--mobile-header-height)); }
+
+  .app-sidebar,
+  .app-shell-collapsed .app-sidebar {
+    width: min(304px, calc(100vw - 48px));
+    height: 100dvh;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    visibility: hidden;
+    transform: translateX(-100%);
+    box-shadow: none;
+    transition: transform .22s ease;
+  }
+
+  .app-sidebar-mobile-open,
+  .app-shell-collapsed .app-sidebar-mobile-open { visibility: visible; transform: translateX(0); }
+  .app-sidebar-brand { gap: 10px; padding: 0 0 22px; }
+  .app-shell-collapsed .app-sidebar-brand-name,
+  .app-shell-collapsed .app-sidebar-link span { display: inline; }
+  .app-sidebar-close { display: grid; flex: 0 0 44px; height: 44px; margin-left: auto; place-items: center; border: 1px solid #365345; border-radius: 8px; background: transparent; color: #f8faf5; }
+  .app-sidebar-close:hover { background: #234433; }
+  .app-sidebar-nav { gap: 8px; }
+  .app-sidebar-link,
+  .app-shell-collapsed .app-sidebar-link { justify-content: flex-start; min-height: 52px; padding: 0 16px; font-size: .95rem; }
+  .app-sidebar-collapse { display: none; }
+  .app-shell-backdrop { background: rgba(11, 40, 27, .42); touch-action: none; }
+  .app-sidebar :focus-visible { outline-color: #c8dfbd; }
+
+  .page-container { padding: 28px 20px max(36px, env(safe-area-inset-bottom)); }
+  .dash-page { padding-top: 28px; }
+  .chat-page { min-height: calc(100dvh - var(--mobile-header-height)); }
+  .chat-layout { min-height: calc(100dvh - var(--mobile-header-height) - 24px); grid-template-columns: minmax(0, 1fr); }
+  .chat-library { min-width: 0; }
+
+  .home-topbar { display: none; }
+  .home-container { height: auto; overflow: visible; }
+  .home-content { padding: 0 24px max(36px, env(safe-area-inset-bottom)); }
+  .home-hero { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 36px 0 0; }
+  .home-title { max-width: 12ch; margin-bottom: 20px; font-size: clamp(2.75rem, 12vw, 4rem); line-height: 1.02; letter-spacing: -.04em; text-wrap: balance; }
+  .home-title-accent { word-spacing: .04em; }
+  .home-subtitle { margin-bottom: 24px; font-size: 1rem; line-height: 1.65; }
+  .home-cta-primary { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 52px; padding: 14px 20px; }
+  .home-quick-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 20px; font-size: .7rem; line-height: 1.5; }
+  .home-quick-facts > span { min-width: 0; }
+  .home-quick-facts > span + span { padding-left: 10px; border-left: 1px solid var(--line); }
+  .home-quick-facts strong { display: block; font-size: .75rem; }
+  .home-scan-preview { min-height: 224px; border-radius: 0 40px 0 40px; }
+  .home-leaf-icon { width: 104px; height: 104px; margin-bottom: 34px; }
+  .home-leaf-icon svg { width: 76px; height: 76px; }
+  .home-preview-label { bottom: 14px; }
+  .home-how-it-works, .home-architecture { margin-top: 48px; }
+  .home-section-heading h2, .home-architecture h2 { font-size: 1.8rem; line-height: 1.15; }
+  .home-step { padding: 22px; }
+  .home-step p { font-size: .9rem; line-height: 1.6; }
+  .home-layer small { font-size: .75rem; line-height: 1.5; }
+  .home-footer { gap: 10px; color: var(--ink-muted); font-size: .75rem; line-height: 1.6; }
+  .home-footer span:first-child { color: var(--forest); }
+}
+
+@media (max-width: 520px) {
+  .chat-layout { min-height: calc(100dvh - var(--mobile-header-height)); }
+}
+
+@media (max-width: 360px) {
+  .app-mobile-header { gap: 8px; }
+  .app-mobile-header .team-menu-trigger { gap: 4px; padding: 0 8px; font-size: .7rem; }
+  .home-content { padding-right: 20px; padding-left: 20px; }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .app-sidebar { transition: none; }
+}

@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
+import TeamHover from "./TeamHover";
 import "./AppShell.css";
 
 const navigationItems = [
@@ -32,6 +33,10 @@ const navigationItems = [
 ];
 
 function AppShell() {
+  const { pathname } = useLocation();
+  const toggleRef = useRef(null);
+  const sidebarRef = useRef(null);
+  const closeRef = useRef(null);
   const [collapsed, setCollapsed] = useState(false);
   const [autoCompact, setAutoCompact] = useState(() => (
     typeof window !== "undefined"
@@ -47,36 +52,72 @@ function AppShell() {
   }, []);
 
   useEffect(() => {
+    if (!mobileOpen) return;
+    const toggle = toggleRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const focusFrame = requestAnimationFrame(() => closeRef.current?.focus());
+    const desktopQuery = window.matchMedia("(min-width: 769px)");
+    const closeOnDesktop = (event) => {
+      if (event.matches) setMobileOpen(false);
+    };
     const handleKeyDown = (event) => {
       if (event.key === "Escape") setMobileOpen(false);
+      if (event.key !== "Tab") return;
+      const controls = [...sidebarRef.current.querySelectorAll("a, button")]
+        .filter((element) => element.getClientRects().length > 0);
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (!sidebarRef.current.contains(document.activeElement)) {
+        event.preventDefault();
+        first?.focus();
+      } else if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
+    desktopQuery.addEventListener("change", closeOnDesktop);
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+    return () => {
+      cancelAnimationFrame(focusFrame);
+      document.body.style.overflow = previousOverflow;
+      desktopQuery.removeEventListener("change", closeOnDesktop);
+      window.removeEventListener("keydown", handleKeyDown);
+      if (toggle?.getClientRects().length) toggle.focus();
+    };
+  }, [mobileOpen]);
 
   return (
     <div className={`app-shell${collapsed || autoCompact ? " app-shell-collapsed" : ""}`}>
-      <a className="skip-link" href="#main-content">Skip to content</a>
-      <button
-        className="app-shell-mobile-toggle"
-        onClick={() => setMobileOpen(true)}
-        aria-label="Open navigation"
-        aria-expanded={mobileOpen}
-      >
-        <span />
-        <span />
-        <span />
-      </button>
+      <a className="skip-link" href="#main-content" inert={mobileOpen}>Skip to content</a>
+      <header className="app-mobile-header" inert={mobileOpen}>
+        <button
+          ref={toggleRef}
+          className="app-shell-mobile-toggle"
+          onClick={() => setMobileOpen(true)}
+          aria-label="Open navigation"
+          aria-controls="primary-navigation"
+          aria-expanded={mobileOpen}
+        >
+          <span /><span /><span />
+        </button>
+        <NavLink to="/" className="app-mobile-brand" aria-label="LeafAI home">LeafAI</NavLink>
+        {pathname === "/" && <TeamHover />}
+      </header>
 
       {mobileOpen && (
         <button
           className="app-shell-backdrop"
+          tabIndex={-1}
           onClick={() => setMobileOpen(false)}
           aria-label="Close navigation"
         />
       )}
 
-      <aside className={`app-sidebar${mobileOpen ? " app-sidebar-mobile-open" : ""}`} aria-label="Primary navigation">
+      <aside ref={sidebarRef} id="primary-navigation" className={`app-sidebar${mobileOpen ? " app-sidebar-mobile-open" : ""}`} aria-label="Primary navigation" role={mobileOpen ? "dialog" : undefined} aria-modal={mobileOpen ? true : undefined}>
         <div className="app-sidebar-brand">
           <span className="app-sidebar-brand-mark" aria-hidden="true">
             <svg viewBox="0 0 120 120" fill="none">
@@ -85,6 +126,9 @@ function AppShell() {
             </svg>
           </span>
           <span className="app-sidebar-brand-name">LeafAI</span>
+          <button ref={closeRef} className="app-sidebar-close" onClick={() => setMobileOpen(false)} aria-label="Close navigation">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6" /></svg>
+          </button>
         </div>
 
         <nav className="app-sidebar-nav">
@@ -116,7 +160,7 @@ function AppShell() {
         </button>
       </aside>
 
-      <main className="app-shell-main" id="main-content" tabIndex="-1">
+      <main className="app-shell-main" id="main-content" tabIndex="-1" inert={mobileOpen}>
         <Outlet />
       </main>
     </div>

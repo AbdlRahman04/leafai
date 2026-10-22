@@ -4,6 +4,7 @@ import "./styles/shared.css";
 import App from "./App";
 import "./styles/redesign.css";
 import "./styles/dashboard-polish.css";
+import "./styles/mobile.css";
 
 document.title = "LeafAI | Plant health intelligence";
 

@@ -1,4 +1,5 @@
-import { useState } from "react";
+﻿import { useEffect, useId, useRef, useState } from "react";
+import "./TeamHover.css";
 
 const teamMembers = [
   { name: "Sara Alzaabi", id: "2022005404" },
@@ -11,134 +12,57 @@ const teamMembers = [
 
 function TeamHover() {
   const [show, setShow] = useState(false);
+  const containerRef = useRef(null);
+  const triggerRef = useRef(null);
+  const panelId = useId();
+
+  useEffect(() => {
+    if (!show) return;
+    const dismiss = (event) => {
+      if (!containerRef.current?.contains(event.target)) setShow(false);
+    };
+    document.addEventListener("pointerdown", dismiss);
+    return () => document.removeEventListener("pointerdown", dismiss);
+  }, [show]);
 
   return (
     <div
-      style={{
-        position: "absolute",
-        top: "28px",
-        right: "36px",
-        zIndex: 1000,
+      ref={containerRef}
+      className="team-menu"
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setShow(false);
       }}
-      onMouseEnter={() => setShow(true)}
-      onMouseLeave={() => setShow(false)}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && show) {
+          event.stopPropagation();
+          setShow(false);
+          triggerRef.current?.focus();
+        }
+      }}
     >
-      {/* Trigger Pill */}
-      <div
-        style={{
-          cursor: "pointer",
-          fontWeight: 600,
-          fontSize: "13px",
-          letterSpacing: "0.5px",
-          fontFamily: "'Inter', sans-serif",
-          background: "rgba(255, 255, 255, 0.1)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          color: "rgba(255,255,255,0.85)",
-          padding: "8px 18px",
-          borderRadius: "24px",
-          border: "1px solid rgba(255,255,255,0.15)",
-          transition: "all 0.3s ease",
-          boxShadow: show
-            ? "0 8px 30px rgba(0,0,0,0.15)"
-            : "0 4px 12px rgba(0,0,0,0.08)",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-        }}
+      <button
+        ref={triggerRef}
+        type="button"
+        className="team-menu-trigger"
+        aria-expanded={show}
+        aria-controls={panelId}
+        onClick={() => setShow((current) => !current)}
       >
         Project Team
-      </div>
-
-      {/* Dropdown Card */}
-      <div
-        style={{
-          marginTop: "10px",
-          background: "rgba(255, 255, 255, 0.1)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          padding: show ? "24px" : "0 24px",
-          maxHeight: show ? "400px" : "0",
-          opacity: show ? 1 : 0,
-          borderRadius: "18px",
-          border: show ? "1px solid rgba(255,255,255,0.12)" : "1px solid transparent",
-          boxShadow: show ? "0 20px 60px rgba(0,0,0,0.2)" : "none",
-          width: "280px",
-          overflow: "hidden",
-          transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-          pointerEvents: show ? "auto" : "none",
-        }}
-      >
-        <div
-          style={{
-            fontSize: "11px",
-            fontWeight: 600,
-            textTransform: "uppercase",
-            letterSpacing: "1.2px",
-            color: "rgba(255,255,255,0.4)",
-            marginBottom: "16px",
-            fontFamily: "'Inter', sans-serif",
-          }}
-        >
-          Team Members
-        </div>
-        {teamMembers.map((member, index) => (
-          <div
-            key={member.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              padding: "8px 0",
-              borderBottom:
-                index < teamMembers.length - 1
-                  ? "1px solid rgba(255,255,255,0.06)"
-                  : "none",
-              fontFamily: "'Inter', sans-serif",
-              opacity: show ? 1 : 0,
-              transform: show ? "translateX(0)" : "translateX(10px)",
-              transition: `all 0.3s ${0.05 * index}s ease`,
-            }}
-          >
-            <div
-              style={{
-                width: "32px",
-                height: "32px",
-                borderRadius: "50%",
-                background: `linear-gradient(135deg, hsl(${130 + index * 15}, 45%, 45%), hsl(${140 + index * 15}, 50%, 55%))`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "13px",
-                fontWeight: 700,
-                color: "white",
-                flexShrink: 0,
-              }}
-            >
-              {member.name.charAt(0)}
-            </div>
-            <div>
-              <div
-                style={{
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  color: "rgba(255,255,255,0.9)",
-                }}
-              >
-                {member.name}
-              </div>
-              <div
-                style={{
-                  fontSize: "11px",
-                  color: "rgba(255,255,255,0.4)",
-                  marginTop: "1px",
-                }}
-              >
-                {member.id}
-              </div>
-            </div>
-          </div>
-        ))}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+      <div id={panelId} className="team-menu-panel" hidden={!show}>
+        <h2>Project team</h2>
+        <ul>
+          {teamMembers.map((member) => (
+            <li key={member.id}>
+              <span className="team-member-initial" aria-hidden="true">{member.name.charAt(0)}</span>
+              <div><strong>{member.name}</strong><small>{member.id}</small></div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
